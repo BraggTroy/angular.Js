@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>登录</title>
+    <script src="../js/jquery.min.js"></script>
+    <script src="../js/angular.min.js"></script>
+    <script src="../js/commonApp.js"></script>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+<div class="login-container" ng-app="loginApp" ng-controller="loginCtrl">
+    <div class="login-form">
+        <div class="from-inner">
+            <!-- 登录切换 -->
+            <div class="login-tabs">
+                <a class="tabs" ng-class="{'active': isUserLogin}" ng-click="tabsChange(1)">注册客户登录</a>
+                <a class="tabs" ng-class="{'active': !isUserLogin}" ng-click="tabsChange(0)">公司客户登录</a>
+            </div>
+
+            <!-- 注册客户登录 -->
+            <div class="form-groups" ng-show="isUserLogin">
+                <div class="form-group">
+                    <label>
+                        <span class="label">姓名</span>
+                        <input type="text" id="username" ng-model="user.name">
+                    </label>
+                </div>
+                <div class="form-group">
+                    <label>
+                        <span class="label">手机</span>
+                        <input type="text" id="userphone" ng-model="user.phone">
+                    </label>
+                </div>
+                <div class="form-group no-border">
+                    <label class="no-select">
+                        <input type="checkbox" class="hide remember">
+                        <span class="checkbox"></span>
+                        <span class="sm-label">记住密码</span>
+                    </label>
+                    <a href="#" class="forget-pwd hover-line">忘记密码？</a>
+                </div>
+                <div class="form-group no-border clear">
+                    <a class="btn btn-space" href="register.html?type=user" target="_blank">注册</a>
+                    <button class="btn btn-login" ng-click="userLogin()">登录</button>
+                </div>
+            </div>
+
+            <!-- 公司客户登录 -->
+            <div class="form-groups" ng-show="!isUserLogin">
+                <div class="form-group">
+                    <label>
+                        <span class="label">公司名称</span>
+                        <input type="text" id="companyname" ng-model="company.name">
+                    </label>
+                </div>
+                <div class="form-group">
+                    <label>
+                        <span class="label">公司号码</span>
+                        <input type="text" id="companyphone" ng-model="company.phone">
+                    </label>
+                </div>
+                <div class="form-group no-border">
+                    <label class="no-select">
+                        <input type="checkbox" class="hide remember">
+                        <span class="checkbox"></span>
+                        <span class="sm-label">记住密码</span>
+                    </label>
+                    <a href="#" class="forget-pwd hover-line">忘记密码？</a>
+                </div>
+                <div class="form-group no-border clear">
+                    <a class="btn btn-space" href="register.html?type=company" target="_blank">注册</a>
+                    <button class="btn btn-login" ng-click="companyLogin()">登录</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    // 定义APP
+    var app = angular.module("loginApp",['commonApp']);
+
+    // 定义控制器 作用域
+    app.controller("loginCtrl",function ($scope) {
+        // 初始化 数据
+        $scope.isUserLogin = true;
+        $scope.user = {
+            name:'',
+            phone:''
+        };
+        $scope.company = {
+            name: '',
+            phone:''
+        };
+
+
+        // 登录种类切换 默认1用户，0公司
+        $scope.tabsChange = function (num) {
+            switch (num){
+                case 0:
+                    $scope.isUserLogin = false;
+                    $scope.user = {name:'',phone:''};
+                    break;
+                case 1:
+                    $scope.isUserLogin = true;
+                    $scope.company = {name:'',phone:''};
+                    break;
+                default:
+                    $scope.isUserLogin = true;
+                    break;
+            }
+        };
+
+        // 发送登录数据
+        $scope.sendLogin = function (data, callback) {
+            $.ajax({
+                type: 'POST',
+                url: '',
+                data: data,
+                dataType: 'json',
+                success: function (res) {
+                    typeof callback == "function" && callback(res);
+                }
+            })
+        };
+
+        // 登录验证
+        $scope.checkLogin = function (data) {
+            for(var key in data){
+                if(data[key].trim() == ''){
+                    $scope.showTips(key,data.type,true);
+                    return false;
+                }
+                if(key.indexOf("phone") >= 0){
+                    var phoneReg = /^1[34578]\d{9}$/;
+                    if(!phoneReg.test(data[key])){
+                        $scope.showTips(key,data.type,false);
+                        return false;
+                    }
+                }
+            }
+        };
+
+        // 输入提示 isspace是空
+        $scope.showTips = function (key,type,isspace) {
+            $(".form-group").removeClass("wrong-group");
+            var id = type + key;
+            $("#"+id).focus().parent().parent().addClass('wrong-group');
+        };
+
+        // 注册用户登录
+        $scope.userLogin = function () {
+            var data = $.extend($scope.user,{ type: 'user'});
+            var bl = $scope.checkLogin(data);
+            if(bl){
+                $scope.sendLogin(data, function (res) {
+                    // 登录成功回调方法
+                })
+            }
+        };
+
+        // 公司客户登录
+        $scope.companyLogin = function () {
+            var data = $.extend($scope.company,{ type: 'company'});
+            var bl = $scope.checkLogin(data);
+            if(bl){
+                $scope.sendLogin(data, function (res) {
+                    // 登录成功回调方法
+                })
+            }
+        };
+
+    });
+</script>
+</body>
+</html>

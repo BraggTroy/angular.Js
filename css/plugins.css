@@ -1,0 +1,91 @@
+body.plugins-body{ overflow: hidden;}
+.plugins-hide{animation: hidePlugins 0.5s;}
+@keyframes hidePlugins { 0%{ opacity: 1;}100%{ opacity: 0; display: none;}}
+@-webkit-keyframes hidePlugins {0%{ opacity: 1;}100%{ opacity: 0; display: none;}}
+
+/*背景*/
+.plugins-mask{position: fixed;top: 0; right: 0; bottom: 0; left: 0;z-index: 999;background: rgba(0,0,0,.5);}
+.plugins-msg-mask{ background: rgba(0,0,0,0);}
+/*弹窗box*/
+.plugins-box{position: fixed;z-index: 1000;min-width: 500px;min-height: 240px;box-shadow: 0 0 10px 2px rgba(211,211,211,.5);background: #fff;/*top: 0; left: 0;*/}
+.plugins-box .plugins-inner{width: 100%;height: 100%;}
+.plugins-box .plugins-title{ background: #efefef;height: 38px; line-height:38px;padding-left:15px;font-size: 16px;color: #333;border-bottom: 1px solid #f0f0f0;cursor: default;-webkit-user-select: none;-moz-user-select: none;-ms-user-select: none;user-select: none;}
+.plugins-box .plugins-title.plugins-cursor{ cursor: move;}
+.plugins-box .plugins-title.plugins-move{ background: #eaeaea; }
+.plugins-box .plugins-title .close{ float: right;cursor: pointer; width: 38px; height: 38px; text-align: center; line-height: 38px; font-size: 24px; opacity: 0.5;}
+.plugins-box .plugins-title .close:hover{opacity: 1; background: #e8e8e8;}
+.plugins-box .plugins-cont{ background: #fefefe; padding: 15px 30px; min-height: 100px; text-align: center; display: table; width: calc(100% - 60px);}
+.plugins-box .plugins-cont>div.text-cont{display: table-cell; vertical-align: middle; text-align: center;}
+.plugins-box .plugins-buttons{ padding: 15px 30px; text-align: right;}
+.plugins-box .plugins-buttons button{ border: none; font-size: 16px; padding: 6px 25px; margin-left: 15px; outline: none; cursor: pointer; border-radius: 2px;}
+.plugins-box .plugins-buttons button.button-confirm{background: #337ab7; color: #fff;}
+.plugins-box .plugins-buttons button.button-confirm:hover{background: #2e6da4; color: #fff;}
+.plugins-box .plugins-buttons button.button-cancel{background: #d8d8d8; color: #333;}
+
+/*消息提示msg*/
+.plugins-msg{ position: fixed; z-index: 1000; min-width: 220px; max-width: 420px; min-height: 50px; border-radius: 4px;background: rgba(0,0,0,0.7); color: #fff; padding: 8px 15px; display: table;}
+.plugins-msg .picon-wrap{ width: 40px; display: table-cell; vertical-align: middle;}
+.plugins-msg .picon-wrap .picon{ display: block; width: 40px; height: 40px; border-radius: 50%; position: relative;}
+.plugins-msg .picon-wrap .picon:after{ content: ""; display: block; width: 8px; height: 8px; background: #4c4c4c; position: absolute; bottom: 0; right: 0; transform: rotate(-45deg);}
+.plugins-msg .picon-wrap .picon>i{ display: block; position: absolute;}
+.plugins-msg .pmsg-wrap{ padding-left: 15px;display: table-cell; vertical-align: middle;}
+.plugins-msg .pmsg-wrap .pmsg-in{ max-width: 350px;}
+
+.plugins-msg.plugins-success .picon-wrap .picon i{ background: #01BA9B; }
+.plugins-msg.plugins-success .picon-wrap .picon{border: 3px solid #01BA9B;}
+.plugins-msg.plugins-error .picon-wrap .picon i{ background: #E64A3A; }
+.plugins-msg.plugins-error .picon-wrap .picon{border: 3px solid #E64A3A;}
+.plugins-msg.plugins-warning .picon-wrap .picon i{ background: #F29A11; }
+.plugins-msg.plugins-warning .picon-wrap .picon{border: 3px solid #F29A11;}
+
+.plugins-msg.plugins-success .picon-suc-1{bottom: 11px; left: 5px;width: 15px; height: 4px; border-radius: 3px; transform: rotate(40deg);}
+.plugins-msg.plugins-success .picon-suc-2{ bottom: 18px; left: 9px;width: 30px; height: 4px; border-radius: 3px 3px 3px 4px; transform: rotate(-60deg);}
+.plugins-msg.plugins-error .picon-error-1{bottom: 18px; left: 5px;width: 30px; height: 4px; border-radius: 3px; transform: rotate(45deg);}
+.plugins-msg.plugins-error .picon-error-2{ bottom: 18px; left: 6px;width: 30px; height: 4px; border-radius: 3px; transform: rotate(-45deg);}
+.plugins-msg.plugins-warning .picon-warning-1{top: 5px; left: 18px;width: 4px; height: 22px; border-radius: 3px;}
+.plugins-msg.plugins-warning .picon-warning-2{ top: 30px; left: 17px;width: 6px; height: 6px; border-radius: 3px;}
+
+/*msg动画*/
+.plugins-msg{ animation: msgScale 0.8s;}
+@keyframes msgScale {
+    0%{ transform: scale(0.1);}
+    50%{ transform: scale(1.1);}
+    100%{ transform: scale(1);}
+}
+@-webkit-keyframes msgScale {
+    0%{ transform: scale(0.1);}
+    50%{ transform: scale(1.1);}
+    100%{ transform: scale(1);}
+}
+
+
+/*加载提示loading*/
+.plugins-loading .spinner {width: 20px;height: 20px;position: relative;margin-left: 10px;}
+.plugins-loading .container1 > div,
+.plugins-loading .container2 > div,
+.plugins-loading .container3 > div {width: 6px;height: 6px;background-color: #f0f0f0;border-radius: 100%;position: absolute;-webkit-animation: bouncedelay 1.2s infinite ease-in-out;animation: bouncedelay 1.2s infinite ease-in-out;-webkit-animation-fill-mode: both;animation-fill-mode: both;}
+.plugins-loading .spinner .spinner-container {position: absolute;width: 100%;height: 100%;}
+.plugins-loading .container2 {-webkit-transform: rotateZ(45deg);transform: rotateZ(45deg);}
+.plugins-loading .container3 {-webkit-transform: rotateZ(90deg);transform: rotateZ(90deg);}
+.plugins-loading .spinner-container .circle1 { top: 0; left: 0; }
+.plugins-loading .spinner-container .circle2 { top: 0; right: 0; }
+.plugins-loading .spinner-container .circle3 { right: 0; bottom: 0; }
+.plugins-loading .spinner-container .circle4 { left: 0; bottom: 0; }
+.plugins-loading .container2 .circle1 {-webkit-animation-delay: -1.1s;animation-delay: -1.1s;}
+.plugins-loading .container3 .circle1 {-webkit-animation-delay: -1.0s;animation-delay: -1.0s;}
+.plugins-loading .container1 .circle2 {-webkit-animation-delay: -0.9s;animation-delay: -0.9s;}
+.plugins-loading .container2 .circle2 {-webkit-animation-delay: -0.8s;animation-delay: -0.8s;}
+.plugins-loading .container3 .circle2 {-webkit-animation-delay: -0.7s;animation-delay: -0.7s;}
+.plugins-loading .container1 .circle3 {-webkit-animation-delay: -0.6s;animation-delay: -0.6s;}
+.plugins-loading .container2 .circle3 {-webkit-animation-delay: -0.5s;animation-delay: -0.5s;}
+.plugins-loading .container3 .circle3 {-webkit-animation-delay: -0.4s;animation-delay: -0.4s;}
+.plugins-loading .container1 .circle4 {-webkit-animation-delay: -0.3s;animation-delay: -0.3s;}
+.plugins-loading .container2 .circle4 {-webkit-animation-delay: -0.2s;animation-delay: -0.2s;}
+.plugins-loading .container3 .circle4 {-webkit-animation-delay: -0.1s;animation-delay: -0.1s;}
+
+@-webkit-keyframes bouncedelay { 0%, 80%, 100% { -webkit-transform: scale(0.0) } 40% { -webkit-transform: scale(1.0) } }
+@keyframes bouncedelay { 0%, 80%, 100% {transform: scale(0.0);-webkit-transform: scale(0.0);} 40% {transform: scale(1.0);-webkit-transform: scale(1.0);} }
+
+
+
+

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,viewport-fit=contain, initial-scale=1, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>我的预约</title>
+    <link rel="stylesheet" href="../css/reset.css">
+    <link rel="stylesheet" href="../css/app.css">
+
+    <script src="../js/init_rem.js"></script>
+    <script src="../js/jquery.min.js"></script>
+    <script src="../js/angular.min.js"></script>
+
+</head>
+<body ng-app="appointApp" ng-controller="appointCtrl">
+<div class="appoint">
+    <!-- 顶部标题栏 -->
+    <div class="header">
+        <a href="mine.html"><div class="back-arrow"><img src="../img/icon/back-arrow.png"></div></a>
+        <div class="title">我的预约</div>
+    </div>
+
+    <!-- 主体内容 -->
+    <div class="appoint-box">
+        <div class="appoint-item" ng-repeat="v in list | orderBy:'v.id':true">
+            <div class="top clearfix">
+                <span class="code">{{v.code}}</span>
+                <span class="time">{{v.time}}</span>
+            </div>
+            <div class="mid">
+                <p><span class="label">客户名称</span>{{v.customername}}</p>
+                <p><span class="label">产品名称</span>{{v.productname}}</p>
+            </div>
+            <div class="bot clearfix">
+                <div class="detail">
+                    <p class="detail-info">{{v.info}}</p>
+                    <p class="detail-name">销售经理</p>
+                </div>
+                <div class="detail">
+                    <p class="detail-info error">{{v.appointmoney}}</p>
+                    <p class="detail-name">预约金额</p>
+                </div>
+                <div class="detail">
+                    <p class="detail-info success" ng-if="v.status == 1">已通过</p>
+                    <p class="detail-info error" ng-if="v.status == 0">已驳回</p>
+                    <p class="detail-info warning" ng-if="v.status == 2">待确认</p>
+                    <p class="detail-name">状态</p>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</div>
+
+<script>
+    var app = angular.module('appointApp',[]);
+    app.controller('appointCtrl', function ($scope) {
+
+        // 预约数据列表 status=0驳回，1通过，2待确认
+        $scope.list = [
+            {id:1, code: 'ZY00125', time: '2017-12-22 12:12:21', customername: '陈先生', productname: '阿里巴巴15号', info: '1000', appointmoney:'200,000', status: 1},
+            {id:2, code: 'ZY03025', time: '2017-12-22 12:12:21', customername: '陈先生', productname: '阿里巴巴12号', info: '3000', appointmoney:'200,000', status: 2},
+            {id:3, code: 'ZY49125', time: '2017-12-22 12:12:21', customername: '陈先生', productname: '阿里巴巴13号', info: '10,000', appointmoney:'200,000', status: 0},
+            {id:4, code: 'ZY00113', time: '2017-12-22 12:12:21', customername: '陈先生', productname: '阿里巴巴9号', info: '25,000', appointmoney:'200,000', status: 1},
+        ]
+    })
+</script>
+</body>
+</html>

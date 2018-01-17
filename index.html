@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>AngularJs</title>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/angular.min.js"></script>
+    <script src="js/commonApp.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body ng-app="indexApp" ng-controller="indexCtrl">
+
+<div class="testidnex">
+
+</div>
+
+<div style="text-align: center; font-size: 20px; font-weight: bold; padding: 15px;">
+    AngularJs基础版
+</div>
+
+<ul class="repeat">
+    <li ng-repeat="u in ullist | orderBy:'text':false" ng-if="myvar3" finshover ng-click="updatecity(u)"
+        ng-class="{'red':u.status==2,'green':u.status==3,'yellow':u.status==1}"
+    >{{u.status | appove}}
+    </li>
+</ul>
+
+<div class="main">
+    <h4>0：定义一个App</h4>
+    <div class="form-group">
+        <p>
+            <img src="img/defineangular.png" alt="">
+        </p>
+    </div>
+    <div class="red">
+        <p>1.在html上声明ng-app和ng-controller</p>
+        <p>2.在js中定义angular,可注入服务和依赖</p>
+    </div>
+</div>
+<div class="main" ng-controller="indexCtrl2">
+    <h4>1:ng-model、ng-bind数据双向绑定</h4>
+    <div class="form-group">
+        <img src="img/ngmodel.png" alt="">
+    </div>
+    <div class="form-group">
+        <label for="name">请输入姓名：</label>
+        <input type="text" id="name" ng-model="name" ng-click="getname(e)">
+        <p>您输入的姓名是：<span class="red">{{name | myfilter}}</span></p>
+    </div>
+    <div>
+        <p>问题：如何给文本框初始值（angular）</p>
+    </div>
+</div>
+<div class="main">
+    <h4>2：事件绑定</h4>
+    <div class="form-group">
+        <p>点击事件ng-click="openmodal()"</p>
+        <p>键盘事件ng-keyup="submit()" 按键抬起</p>
+        <p>焦点事件ng-focus="submit()" 获得焦点</p>
+    </div>
+    <div>
+        <img src="img/ng-click.png" alt="">
+        <p>扩展应用：查询angular支持的事件手册</p>
+    </div>
+</div>
+<div class="main">
+    <h4>3：过滤器</h4>
+    <div class="form-group">
+        <p>时间过滤器：<br/>ng-bind="a.create_time|date:'yyyy-MM-dd HH:mm:dd'" </p>
+        <p>自定义过滤器：<br/>ng-bind="a.create_time | reverse" </p>
+        <p>
+            <img src="img/filter.png" alt="">
+        </p>
+    </div>
+    <div>
+        <p>
+            angular自带一些过滤器，同时支持自定义过滤器.
+        </p>
+    </div>
+</div>
+<div class="main">
+    <h4>4：ng-repeat的使用</h4>
+    <div class="form-group">
+        <p>
+            <img src="img/ng-repeat.png" alt="">
+        </p>
+    </div>
+    <div>
+        <p>
+            解决了繁琐的html拼接,只需定义:<br/>
+            <img src="img/obj.png" alt="">
+        </p>
+    </div>
+    <div>
+        orderBy:'字段名':false/true 按照字段排序
+    </div>
+</div>
+
+<div class="main">
+    <h4>5：监听repeat完成</h4>
+    <div class="form-group">
+        //html
+        <p>
+            <img src="img/html-finish.png" alt="">
+        </p>
+    </div>
+    <div class="form-group">
+        //循环完成之后
+        <p>
+            <img src="img/afterfinish.png" alt="">
+        </p>
+    </div>
+    <div class="red" style="margin-top: 10px;">
+        有很多地方都会用到这里的知识点<br/>
+        控件初始化，滚动条置底等等
+    </div>
+</div>
+<div class="main">
+    <h4>6：ng-class的使用</h4>
+    <div class="form-group">
+        <p>
+            <img src="img/ngclass.png" alt="">
+        </p>
+    </div>
+    <div class="red" style="margin-top: 10px;">
+        当条件成立时，就会给当前节点添加这个class
+    </div>
+</div>
+<div class="main">
+    <h4>7：ng-show/ng-hide 【ng-if】</h4>
+    <div class="form-group">
+        <p>
+            <img src="img/ngshow.png" alt="">
+        </p>
+    </div>
+    <div>
+        <p> $scope.myvar = true ; //显示 </p>
+        <p> $scope.myvar = false; //隐藏 </p>
+    </div>
+    <div class="red" style="margin-top: 10px;">
+        ng-show/ng-hide 与 ng-if 的区别:<br/>
+        ng-if 当条件不满足的时候，会移除dom节点
+    </div>
+</div>
+<div class="main">
+    <h4>8：ng-view 路由</h4>
+    <div class="form-group">
+        //页面元素<br/>
+        "&lt;div ng-view&gt;&lt;/div&gt;"
+</div>
+<div class="form-group">
+    <p>
+        <img src="img/router.png" alt="">
+    </p>
+</div>
+<div class="red" style="margin-top: 10px;">
+    需要注入"$route"
+</div>
+</div>
+</body>
+<script>
+    //定义App
+    var app = angular.module('indexApp', ['commonApp']);
+
+    app.directive('finshover', function ($timeout) {
+        return {
+            restrict: 'A',
+            link: function (scope, element, attr) {
+                if (scope.$last === true) {
+                    $timeout(function () {
+                        scope.$emit('finshcallback');
+                    });
+                }
+            }
+        };
+    });
+
+
+    //过滤器的使用  //可以注入依赖
+
+    //姓名过滤器
+    app.filter('myfilter', function () {
+        return function (text) {
+            var str = "";
+            if (text == 1) {
+                str = "张三";
+            } else if (text == 2) {
+                str = "李四";
+            }
+            return str;
+        }
+    });
+
+    app.filter('appove', function () {
+        return function (text) {
+            var str = "";
+            if (text == 1) {
+                str = "审核中";
+            } else if (text == 2) {
+                str = "通过";
+            } else if (text == 3) {
+                str = "不通过";
+            }
+            return str;
+        }
+    });
+    //定义控制器 作用域
+    app.controller("indexCtrl", function ($scope, $rootScope) {
+        $scope.name = "nihao";
+
+        $scope.myvar3 = false;
+
+
+        //keyup的时候获取 name
+        $scope.getname = function (e) {
+            $scope.myvar3 = true;
+        };
+
+        //li的数据源
+        $scope.ullist = [
+            {id: 1, text: 5, status: 1},
+            {id: 2, text: 9, status: 1},
+            {id: 3, text: 4, status: 2},
+            {id: 4, text: 1, status: 3},
+            {id: 5, text: 12, status: 1}
+        ];
+
+        $scope.appoveclass = function (num) {
+            var classstr = "";
+            if (num == 1) {
+                classstr = "yellow";
+            } else if (num == 2) {
+                classstr = "green";
+            } else if (num == 3) {
+                classstr = "red";
+            }
+            return classstr;
+        };
+
+
+        $scope.updatecity = function (obj) {
+            console.log(obj);
+        };
+
+
+        $scope.$on('finshcallback', function () {
+            console.log("循环完成！");
+            $(".repeat").scrollTop($(".repeat")[0].scrollHeight);
+
+        });
+
+        //$scope.$apply();
+
+
+    });
+
+    //子控制器
+    app.controller("indexCtrl2", function ($scope, $rootScope) {
+        $scope.myvar = true;
+
+        $rootScope.myindex = 1;
+
+        $scope.user = {name: "ljc", age: 25};
+    });
+
+</script>
+
+</html>

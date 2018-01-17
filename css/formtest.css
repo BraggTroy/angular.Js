@@ -1,0 +1,40 @@
+
+/*bootcss样式重置*/
+.form-control, .form-control:focus{
+    border: none; box-shadow: none; outline: none; transition: none;
+}
+.form-group{
+    border-bottom: 1px solid #d4d4d4;
+}
+
+
+
+
+/*validform样式重置*/
+.Validform_error{
+    background: #fff;
+}
+
+
+
+
+/* css3动画 */
+.animate-tips .animate-close{position: absolute; right: 4px; top: 3px; cursor: pointer;}
+.animate-tips .animate-close:hover{color: #aaa;}
+.animate-tips > span{display: block; width: auto;white-space: nowrap;}
+
+/* 按比例打开 */
+.animate-tips{min-width: 130px; padding: 10px; display: none; position: absolute; bottom: 17px; right:-130px; font-size: 12px;}
+.animate-scale { background: #F2F5FF; color: #6F6EC2; }
+.animate-scale.ns-show{ display: inline-block; -webkit-animation-name: animScale; animation-fill-mode: forwards;  animation-name: animScale; -webkit-animation-duration: 0.5s; animation-duration: 0.5s; }
+.animate-scale.ns-hide{ display: inline-block; -webkit-animation-name: closeScale; animation-fill-mode: forwards;  animation-name: closeScale; -webkit-animation-duration: 0.5s; animation-duration: 0.5s; }
+@-webkit-keyframes animScale { 0% { opacity: 0; -webkit-transform: translate3d(0,40px,0) scale3d(0.1,0.6,1); } 100% { opacity: 1; -webkit-transform: translate3d(0,0,0) scale3d(1,1,1); } }
+@keyframes animScale { 0% { opacity: 0; -webkit-transform: translate3d(0,40px,0) scale3d(0.1,0.6,1); transform: translate3d(0,40px,0) scale3d(0.1,0.6,1); } 100% { opacity: 1; -webkit-transform: translate3d(0,0,0) scale3d(1,1,1); transform: translate3d(0,0,0) scale3d(1,1,1); } }
+@-webkit-keyframes closeScale { 0% { opacity: 0; -webkit-transform: translate3d(0,40px,0) scale3d(0.1,0.6,1); } 100% { opacity: 1; -webkit-transform: translate3d(0,0,0) scale3d(1,1,1); } }
+@keyframes closeScale { 0% { opacity: 1; -webkit-transform: translate3d(0,0,0) scale3d(1,1,1); transform: translate3d(0,0,0) scale3d(1,1,1); } 100% { opacity: 0; -webkit-transform: translate3d(0,40px,0) scale3d(0.1,0.6,1); transform: translate3d(0,40px,0) scale3d(0.1,0.6,1); } }
+
+
+
+
+/*开放样式*/
+.no-border{border: none;}

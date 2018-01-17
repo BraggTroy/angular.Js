@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,viewport-fit=contain, initial-scale=1, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>信息资料补全</title>
+    <link rel="stylesheet" href="../css/reset.css">
+    <link rel="stylesheet" href="../css/app.css">
+
+    <script src="../js/init_rem.js"></script>
+    <script src="../js/jquery.min.js"></script>
+    <script src="../js/angular.min.js"></script>
+
+</head>
+<body ng-app="userinfoApp" ng-controller="userinfoCtrl" ng-cloak>
+<div class="userinfo">
+    <!-- 顶部标题栏 -->
+    <div class="header">
+        <a href="mine.html"><div class="back-arrow"><img src="../img/icon/back-arrow.png"></div></a>
+        <div class="title">信息资料补全</div>
+    </div>
+
+    <!-- 主体内容 -->
+    <div class="info-box">
+        <section class="sec">
+            <div class="title"><i class="ico"><img src="#"></i>基本信息</div>
+        </section>
+    </div>
+</div>
+
+<script>
+    var app = angular.module('userinfoApp',[])
+        .controller('userinfoCtrl', function ($scope) {
+
+
+        })
+</script>
+
+</body>
+</html>

@@ -1,0 +1,94 @@
+body{ background: #f3f4f8; -webkit-tap-highlight-color: rgba(0,0,0,0);}
+a{ outline:none; -moz-outline-style:none;} /*去除按下阴影*/
+
+
+.mine .cont{ margin-left: 0.9rem; margin-right: 0.9rem;}
+.mine .user-info-box{ width: 100%; height: 9.52rem; background: url("../img/mine_bg2.png") no-repeat center / cover;}
+.mine .user-info-box .user-opt{ padding-top: 1rem;}
+.mine .user-info-box .user-opt .ico{ display: inline-block; width: 1.33rem; height: 1.33rem; overflow: hidden; float: right; margin-left: 14px;}
+.mine .user-info-box .user-opt .ico > a > img{ width: 100%;}
+.mine .user-info-box .user-head{ margin-left: 2.45rem; margin-right: 1.95rem; float: left;}
+.mine .user-info-box .user-head > img{ width: 4rem; height: 4rem; border-radius: 50%;}
+.mine .user-info-box .user-info-item { float: left;}
+.mine .user-info-box .user-name{ font-size: 24px; padding: 8px 0;}
+.mine .user-info-box .info-item{ margin-right: 1rem; margin-bottom: 2px; font-size: 15px; display: inline-block;}
+.mine .user-info-box .info-item.no-margin{ margin: 0;}
+.mine .user-info-box .info-item .ico>img{ width: 14px; height: 14px; vertical-align: middle; margin-top: -2px;}
+.mine .user-info-box .user-account .ac-info{ width: 50%; float: left; font-size: 12px; margin-top: 1rem;}
+.mine .user-info-box .user-account .ac-all{ text-align: right;}
+.mine .user-info-box .user-account .num{ font-size: 18px; color: #44A886; margin-left: 10px;}
+.mine .user-info-box .user-account .ac-income .num.red{color: #DB0000;}
+.mine .user-info-box .user-account .ac-income .label{ margin-left: 20px;}
+
+.mine .tabs-box{ padding-bottom: 3.8rem;}
+.mine .tabs-box .tab{ display: block; color: #333; font-size: 1rem; text-decoration: none; border-top: 1px solid #e2e2e4; padding: 0.8rem; background: #fff; }
+.mine .tabs-box .tab .ico>img{ width: 1rem; height: 1rem; vertical-align: middle; margin-right: 15px; float: left;}
+.mine .tabs-box .sec{ margin-top: 0.8rem; border-bottom: 1px solid #e2e2e4;}
+.mine .tabs-box .tab .right-arrow{ display: inline-block; width: 1rem; height: 1rem; float: right; background: url("../img/icon/right-arrow.png") no-repeat center / cover}
+.mine .tabs-box .tab .warning{ float: right; margin-right: 10px; color: #FC5856; font-size: 0.7rem; line-height: 1rem;}
+.mine .tabs-box .tab .warning .warn-ico{ width: 0.8rem; height: 0.8rem; vertical-align: middle; margin: -2px 5px 0 0;}
+
+.mine .menu-box{ display: block; height: 3rem; background: #fff; border-top:1px solid #e2e2e4; box-shadow: 0 -1px 10px 1px #e2e2e4;position: fixed; bottom: 0; width: 100%;}
+.mine .menu-box .menu{ width: 50%; float: left; height: 3rem; text-align: center; font-size: 0.5rem; display: block;}
+.mine .menu-box .menu .ico{ width: 1.2rem; height: 1.2rem; display: inline-block;margin: 0.5rem auto 0.2rem;}
+.mine .menu-box .menu .home-ico{ background: url("../img/icon/home.png") no-repeat center / cover;}
+.mine .menu-box .menu .home-ico.active{ background: url("../img/icon/home-active.png") no-repeat center / cover;}
+.mine .menu-box .menu .person-ico{ background: url("../img/icon/person.png") no-repeat center / cover;}
+.mine .menu-box .menu .person-ico.active{ background: url("../img/icon/person-active.png") no-repeat center / cover;}
+.mine .menu-box .menu .menu-text{ color: #858585;}
+.mine .menu-box .menu .menu-text.active{ color: #DD0505;}
+
+@media screen and (min-width: 768px){
+    .mine .user-info-box .user-name{ font-size: 1rem;}
+    .mine .user-info-box .info-item{ font-size: 0.6rem;}
+    .mine .user-info-box .info-item .ico>img{ width: 0.6rem; height: 0.6rem;}
+    .mine .user-info-box .user-account .ac-info{ font-size: 0.5rem;}
+    .mine .user-info-box .user-account .num{ font-size: 1rem; color: #44A886; margin-left: 0.5rem;}
+}
+
+/*子页面头部标题部分*/
+.header{ height: 3rem; line-height: 3rem; background: #333; color: #fff; text-align: center; font-size: 1rem; position: fixed; top: 0; width: 100%;}
+.header .back-arrow{ position: absolute; left: 0; line-height: normal; height: 3rem; width: 3rem;}
+.header .back-arrow>img{ width: 1.2rem; height: 1.2rem; margin-top: 0.9rem;}
+
+
+.message .msg-list{padding-top: 3rem;}
+.message .msg-list .msg-item{ position: relative; border-bottom: 1px solid #e5e4e1;}
+.message .msg-list .msg-item .msg-ico{ position: absolute; left: 0; top: 0; width: 3.66rem; height: 100%; display: flex; justify-content: center; align-items: center;}
+.message .msg-list .msg-item .msg-ico>img{ width: 2rem; height: 2rem;}
+.message .msg-list .msg-item .msg-info{ margin-left: 3.66rem; padding: 0.7rem 0; width: 12rem;}
+.message .msg-list .msg-item .msg-info .msg-content{ font-size: 0.8rem; margin-bottom: 8px; line-height: 1rem;}
+.message .msg-list .msg-item .msg-info .msg-time{ font-size: 0.5rem; color: #A6ABB4; min-font-size: 12px;}
+
+.message .msg-list .msg-item .msg-opt{ width: 4.34rem;position: absolute; right: 0; top: 0;height: 100%; display: flex; justify-content: center; align-items: center;}
+.message .msg-list .msg-item .msg-opt .read{ border: 1px solid #017514; width: 2.5rem; height: 1rem;-webkit-border-radius: 0.5rem;-moz-border-radius: 0.5rem;border-radius: 0.5rem; font-size: 0.5rem;background: #3DB453;}
+.message .msg-list .msg-item .msg-opt .read .inner{ color: #fff; border: 2px solid #fff; width: 100%; height: 100%; align-items: center; justify-content: center; display: flex;
+    -webkit-box-sizing: border-box;-moz-box-sizing: border-box;box-sizing: border-box;-webkit-border-radius: 0.5rem;-moz-border-radius: 0.5rem;border-radius: 0.5rem;}
+.message .msg-list .msg-item .msg-opt .unread{border: 1px solid #777; width: 2.5rem; height: 1rem;-webkit-border-radius: 0.5rem;-moz-border-radius: 0.5rem;border-radius: 0.5rem; font-size: 0.5rem;background: #eee; line-height: 1rem; color: #666;}
+.message .msg-list .msg-item .msg-opt .unread .inner:before{ content: " ";display: inline-block; width: 0.8rem; height: 0.8rem; margin: 0.1rem; float: left; background: #777; border-radius: 50%;}
+
+
+
+.appoint .appoint-box{ padding: 3.5rem 0.7rem;}
+.appoint .appoint-item{ margin-bottom: 0.5rem; background: #fff; border: 1px solid #e3e4e6; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box;}
+.appoint .appoint-item .top{ color: #999; font-size: 0.66rem; padding: 0.5rem 0;}
+.appoint .appoint-item .top .code{ float: left; margin-left: 1.42rem;}
+.appoint .appoint-item .top .time{ float: right; margin-right: 0.5rem;}
+.appoint .appoint-item .mid p{ font-size: 0.8rem; line-height: 1.2rem;}
+.appoint .appoint-item .mid .label{ font-size: 0.66rem; color: #999; padding: 0 1.42rem;}
+.appoint .appoint-item .bot{ padding: 0 0.65rem; text-align: center;}
+.appoint .appoint-item .bot .detail{ margin: 0.6rem 0 1rem; width: 5.7rem; float: left; border-right: 1px solid #f0f0f0; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box;}
+.appoint .appoint-item .bot .detail:last-child{ border: none;}
+.appoint .appoint-item .bot .detail .detail-info{ font-size: 0.8rem; margin-bottom: 0.6rem;}
+.appoint .appoint-item .bot .detail .detail-name{ font-size: 0.5rem; color: #999;}
+.appoint .appoint-item .bot .detail .error{ color: #DD0505;}
+.appoint .appoint-item .bot .detail .warning{ color: #fc7a1a;}
+.appoint .appoint-item .bot .detail .success{ color: #3db453;}
+
+
+
+
+
+
+
+

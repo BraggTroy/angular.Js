@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,viewport-fit=contain, initial-scale=1, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>个人中心</title>
+    <link rel="stylesheet" href="../css/reset.css">
+    <link rel="stylesheet" href="../css/app.css">
+
+    <script src="../js/init_rem.js"></script>
+    <script src="../js/jquery.min.js"></script>
+    <script src="../js/angular.min.js"></script>
+
+</head>
+<body ng-app="mineApp" ng-controller="mineCtrl" ng-cloak>
+    <div class="mine">
+        <!-- 用户基本信息 头像等 -->
+        <div class="user-info-box">
+            <!-- 顶部操作标签 -->
+            <div class="user-opt clearfix cont">
+                <span class="ico ico-setting">
+                    <a href="#"> <img src="../img/icon/setting.png"></a></span>
+                <span class="ico ico-message">
+                    <a href="message.html"> <img src="../img/icon/message.png"></a></span>
+            </div>
+
+            <!-- 用户信息 -->
+            <div class="user-info clearfix">
+                <div class="user-head"><img src="../img/user_head.jpg" alt="用户头像"></div>
+                <div class="user-info-item">
+                    <p class="user-name">{{user.name}}</p>
+                    <span class="info-item">
+                        <i class="ico"><img src="../img/icon/user.png"></i> {{user.status}}
+                    </span>
+                    <span class="info-item no-margin">
+                        <i class="ico"><img src="../img/icon/safe.png"></i> {{user.type}}
+                    </span>
+                    <div></div>
+                    <span class="info-item">
+                        <i class="ico"><img src="../img/icon/phone.png"></i> {{user.phone}}
+                    </span>
+                </div>
+            </div>
+
+            <!-- 用户资产信息 -->
+            <div class="user-account clearfix">
+                <div class="ac-info ac-all">
+                    <span class="label">总资产</span>
+                    <span class="num">{{account.all}}元</span>
+                </div>
+                <div class="ac-info ac-income">
+                    <span class="label">总盈亏</span>
+                    <span class="num" ng-class="{'red': account.income < 0}">{{account.income}}元</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 主体tab标签 -->
+        <div class="tabs-box">
+
+            <section class="sec sec-one">
+                <a class="tab" href="#">
+                    <div class="tab-inner">
+                        <i class="ico"><img src="../img/icon/phone.png"></i>
+                        <span class="tab-name">我的产品</span>
+                        <i class="right-arrow"></i>
+                    </div>
+                </a>
+                <a class="tab" href="appointment.html">
+                    <div class="tab-inner">
+                        <i class="ico"><img src="../img/icon/time.png"></i>
+                        <span class="tab-name">我的预约</span>
+                        <i class="right-arrow"></i>
+                    </div>
+                </a>
+                <a class="tab" href="#">
+                    <div class="tab-inner">
+                        <i class="ico"><img src="../img/icon/exam.png"></i>
+                        <span class="tab-name">我的审核</span>
+                        <i class="right-arrow"></i>
+                    </div>
+                </a>
+                <a class="tab" href="#">
+                    <div class="tab-inner">
+                        <i class="ico"><img src="../img/icon/record.png"></i>
+                        <span class="tab-name">操作记录</span>
+                        <i class="right-arrow"></i>
+                    </div>
+                </a>
+            </section>
+
+            <section class="sec sec-two">
+                <a class="tab" href="userinfo.html">
+                    <div class="tab-inner">
+                        <i class="ico"><img src="../img/icon/info.png"></i>
+                        <span class="tab-name">信息资料补全</span>
+                        <i class="right-arrow"></i>
+                        <span class="warning" ng-class="{'hide': examine.status}">
+                            <img src="../img/icon/warning.png" class="warn-ico">
+                            <span class="warn-text">{{examine.msg}}</span>
+                        </span>
+                    </div>
+                </a>
+            </section>
+
+            <section class="sec sec-three">
+                <a class="tab" href="#">
+                    <div class="tab-inner">
+                        <i class="ico"><img src="../img/icon/risk.png"></i>
+                        <span class="tab-name">重新进行风险评测</span>
+                        <i class="right-arrow"></i>
+                    </div>
+                </a>
+                <a class="tab" href="#">
+                    <div class="tab-inner">
+                        <i class="ico"><img src="../img/icon/risk-record.png"></i>
+                        <span class="tab-name">风险评测历史记录</span>
+                        <i class="right-arrow"></i>
+                    </div>
+                </a>
+            </section>
+        </div>
+
+        <!-- 底部菜单 -->
+        <div class="menu-box">
+            <a class="menu">
+                <span class="ico home-ico"></span>
+                <p class="menu-text">首页</p>
+            </a>
+            <a class="menu">
+                <span class="ico person-ico active"></span>
+                <p class="menu-text active">个人中心</p>
+            </a>
+        </div>
+
+    </div>
+
+<script type="text/javascript">
+    var app = angular.module('mineApp',[]);
+    app.controller('mineCtrl',function ($scope) {
+        // 基本用户信息
+        $scope.user = {
+            name: '陈宝俊',
+            status: '合格投资者',
+            type: '稳健型',
+            phone: '18852951226'
+        };
+        // 账户信息
+        $scope.account = {
+            all: 0,
+            income: -1
+        };
+        // 资料审核状态
+        $scope.examine = {
+            msg: '合规审核中',
+            status: false
+        };
+
+
+    })
+
+
+</script>
+</body>
+</html>

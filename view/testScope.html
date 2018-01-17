@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="基本游离于初级大圆满与中级入门时期">
+    <title>方法测试等</title>
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+
+    <link rel="stylesheet" href="../css/custom.css">
+    <link rel="stylesheet" href="../css/components.css">
+    <link rel="stylesheet" href="../css/iconfont.css">
+
+    <link rel="stylesheet" href="../css/select2.css">
+    <!--<link rel="stylesheet" href="../css/selectli2.css">-->
+
+    <link rel="stylesheet" href="../css/bootstrap-datetimepicker.min.css">
+
+    <link rel="stylesheet" href="../css/icheck/grey.css">
+
+
+    <script src="../js/jquery.min.js"></script>
+    <script src="../js/angular.js"></script>
+    <script src="../js/angular-route.min.js"></script>
+
+    <script src="../js/commonApp.js"></script>
+
+    <script src="../js/ng-pagination.min.js"></script>
+
+    <script src="../js/select2.js"></script>
+    <script src="../js/select2_locale_zh-CN.js"></script>
+    <script src="../js/matcher.js"></script>
+    <!--<script src="../js/widget.js"></script>-->
+
+    <!--<script src="../js/bootstrap-datepicker.js"></script>-->
+    <script src="../js/bootstrap-datetimepicker.js"></script>
+
+    <script src="../js/icheck/icheck.js"></script>
+
+</head>
+<body ng-app="testApp" ng-controller="testCtrl">
+<!-- 简单过滤器 -->
+<section class="col-md-3">
+    <h4>简单过滤器：</h4>
+    <input type="text" class="form-control" ng-model="name">
+    <ul>
+        <li ng-repeat="n in names | filter:name" on-finish-render-filters>{{n}}</li>
+    </ul>
+</section>
+
+<!-- 自定义过滤器 -->
+<section class="col-md-3">
+    <h4>自定义过滤器：</h4>
+    <ul>
+        <li ng-repeat="n in names | hasChen">{{n}}</li>
+    </ul>
+</section>
+
+<!-- select中ng-options -->
+<section class="col-md-3">
+    <h4>select中ng-options</h4>
+    <select ng-model="selectedUser" ng-options="u.name for u in users"></select>
+    <p ng-show="selectedUser">选中的值：{{selectedUser}}，{{selectedUser.id}}，{{selectedUser.name}}</p>
+    <hr>
+    <select ng-model="selectedObj" ng-options="key for (key, value) in objs"></select>
+    <p ng-show="selectedObj">选中的值：{{selectedObj}}</p>
+
+</section>
+<div class="clearfix"></div>
+
+<!-- 路由简单应用 -->
+<section>
+    <hr>
+    <h4>路由简单应用：</h4>
+    <ul>
+        <li><a href="#/">默认页</a> </li>
+        <li><a href="#/person">person页</a> </li>
+        <li><a href="#/other">其他路由重定向页</a> </li>
+    </ul>
+    <div ng-view></div>
+</section>
+
+<!-- 分页控件 -->
+<section>
+    <hr>
+    <h4>分页控件：</h4>
+    <pager page-count="pageCount" page-total="pageTotal" current-page="currentPage"
+        on-page-change="onPageChange()"></pager>
+</section>
+
+<!-- select2控件 -->
+<section class="clearfix">
+    <hr>
+    <h4>select2控件</h4>
+    <div class="col-md-3">
+        <select id="name" type="text" class="form-control bg-grey"
+                data-placeholder="联系人拼音">
+            <option value=""></option>
+        </select>
+    </div>
+</section>
+
+<!-- 时间控件 -->
+<section class="clearfix">
+    <hr>
+    <h4>时间控件：</h4>
+    <div class=" col-xs-9 col-sm-9 col-md-8 ">
+        <div class="portlet-input pull-left">
+            <div class="input-icon right">
+                <input id="startTime" type="text"
+                       class="form-control input-small bg-datetime form_datetime"
+                       data-date-format="yyyy-mm-dd hh:ii"
+                       style="padding-left:10px;padding-right:30px;font-size:12px;">
+            </div>
+        </div>
+        <div style="float:left; line-height:30px; margin:0 8px;">至</div>
+        <div class="portlet-input pull-left">
+            <div class="input-icon right">
+                <input id="eTime" type="text"
+                       class="form-control input-small bg-datetime form_datetime"
+                       data-date-format="yyyy-mm-dd hh:ii"
+                       style="padding-left:10px;padding-right:30px;font-size:12px;">
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 单选复选框 -->
+<section>
+    <style type="text/css">
+        input[type=radio]{ opacity: 0;}
+    </style>
+    <hr>
+    <h4>单选复选框</h4>
+
+    <div class="icheck-inline">
+        <label>
+            <input type="radio" name="type" class="icheck"> 事假
+        </label>
+        <label>
+            <input type="radio" name="type" class="icheck"> 年假
+        </label>
+        <label>
+            <input type="radio" name="type" class="icheck"> 病假
+        </label>
+        <label>
+            <input type="radio" name="type" class="icheck"> 任性
+        </label>
+    </div>
+    <div class="icheck-inline2">
+        <label>
+            <input type="checkbox" value="1" name="check1" class="icheck"> 电脑
+        </label>
+        <label>
+            <input type="checkbox" value="2" name="check2" class="icheck"> 鼠标
+        </label>
+        <!--<label>
+            <input type="checkbox" data-checkbox="_line" value="2" name="check2" class="icheck"> 鼠标2
+        </label>-->
+    </div>
+</section>
+
+<script>
+
+    var app = angular.module('testApp',['ngRoute','commonApp','ng-pagination']); // []内依赖注入
+    app.config(['$routeProvider', function ($routeProvider) {  // 路由配置
+        $routeProvider
+            .when('/', {template:'默认页'})
+            .when('/person',{
+                templateUrl: 'view/person.html',
+                controller: 'personCtrl'
+            })
+            .otherwise({redirectTo: '/'})
+    }]);
+
+
+    // 过滤器 包含“陈”
+    app.filter('hasChen',function () {
+        return function (arr) {
+            var arr2 = [];
+            angular.forEach(arr,function (v) {
+                if(v.indexOf('陈') >= 0){
+                    arr2.push(v);
+                }
+            })
+            return arr2;
+        }
+    });  // 自定义过滤器
+
+
+    // 自定义服务
+    // 注入依赖后，所依赖应用中的过滤器和服务都可以直接使用，过滤器多见repeat，服务类似公共方法或该app所提供的功能
+    // 以依赖-服务的形式写公共方法
+    app.factory("DateService", function () {
+        var DateService = {
+            getData: function () {
+                var zdate = new Date();
+                var sdate = zdate.getTime();
+                return sdate;
+            },
+            showName: function (name) {
+                if(name){
+                    console.log("你的名字是："+ name);
+                }else{
+                    console.log("你没有名字。");
+                }
+            }
+        };
+        return DateService;
+
+        // 写法二
+        /* 直接返回一个变量，无需定义
+        return {
+            getData: function () {
+                var zdate = new Date();
+                var sdate = zdate.getTime();
+                return sdate;
+            }
+        };
+        */
+    });
+
+    app.controller("testCtrl", function ($scope,$http,DateService,pagerService) {  // 服务的引入
+        
+        // 初始化数据
+        $scope.names = ["陈暴君",'陈宝俊','Jack','Tory','Tom'];
+        $scope.users = [{id:1,name:'Tank'},{id:2,name:'Bragg'},{id:3,name:'Dan'}];
+        $scope.objs = {id: 1, name: '手机',price:'￥15'};
+        $scope.currentPage = 1;
+        $scope.pageSize = 10;
+
+        $scope.pageTotal = 152;
+        $scope.pageCount = pagerService.getPageCount($scope.pageTotal, $scope.pageSize);
+
+
+        // 服务1
+        $http({
+            method: 'GET',
+            url: '/',
+            data: { type: 'test'}
+        }).then(function (res) {
+            // .. 成功回调
+            $scope.objs.name = res.data.name;
+        },function () {
+            // .. 失败回调
+            console.log("error")
+        });
+
+        // 服务2
+        var t = DateService.getData();
+        console.log(t);
+        DateService.showName("chen");
+
+        // 当采用非angular方式改变angular变量值，需要手动刷新视图
+        // 例如jQuery的ajax
+        $.ajax({
+            type: 'GET',
+            url: '/',
+            data: { type: 'test'},
+            success: function (res) {
+                $scope.objs.name = res.name;
+
+                // 手动刷新视图
+                $scope.$apply();
+            }
+        });
+
+
+        // 循环结束指令的使用
+        $scope.$on('ngRepeatFinished', function (event) {
+            // ...
+            console.log(event);
+            console.log("repeat over");
+        })
+
+        // 分页事件
+        $scope.onPageChange = function () {
+            // 获取新数据，更新页面
+        }
+        
+        
+    });
+
+
+    // 子控制器 可以访问父控制器的变量
+    app.controller('personCtrl', function ($scope) {
+        console.log("输出了父控制器中的：", $scope.objs);
+
+    });
+
+
+
+    // select2使用方法 简略版
+    var widget = {
+        user: function (select2_id,flag) {
+            // ... 省略
+            var html = '',
+                data = [
+                    {id: 71, name: "居朝俊", username: "cj.ju", pinyin: "jcj"},
+                    {id: 72, name: "何佛光", username: "fg.he", pinyin: "hfg"},
+                    {id: 73, name: "华亦晨", username: "yc.hua", pinyin: "hyc"},
+                    {id: 67, name: "吕东东", username: "dd.lv", pinyin: "ldd"},
+                    {id: 74, name: "薛宽宽", username: "kk.xue", pinyin: "xkk"},
+                    {id: 77, name: "雷达", username: "da.lei", pinyin: "ld"},
+                    {id: 80, name: "陈宝俊", username: "bj.chen", pinyin: "cbj"}
+                ];
+
+            for (var i = 0; i < data.length; i++) {
+                html += '<option alt="' + data[i].pinyin + '" value="' + data[i].id + '">' + data[i].name + '</option>';
+            }
+            $("#" + select2_id).append(html).select2({
+                matcher: function (term, text, opt) {
+                    return text.toUpperCase().indexOf(term.toUpperCase()) >= 0
+                        || opt.attr("alt").toUpperCase().indexOf(term.toUpperCase()) >= 0;
+                },
+                allowClear: true//是否允许用户清除文本信息
+            });
+        }
+    };
+    widget.user('name',false);
+
+
+    // 时间控件
+    $("#startTime,#eTime").datetimepicker({
+        language: "zh-CN",
+        format: "yyyy-MM-dd HH:mm",
+        autoclose: true
+    });
+
+
+    // icheck控件的使用，一般一张页面只会出现一种
+    var i_check = {
+        init: function (ichecks) {
+            ichecks.each(function () {
+                var checkboxClass = $(this).attr('data-checkbox') ? $(this).attr('data-checkbox') : 'icheckbox_minimal-grey';
+                var radioClass = $(this).attr('data-radio') ? $(this).attr('data-radio') : 'iradio_minimal-grey';
+
+                if (checkboxClass.indexOf('_line') > -1 || radioClass.indexOf('_line') > -1) {
+                    $(this).iCheck({
+                        checkboxClass: checkboxClass,
+                        radioClass: radioClass,
+                        insert: '<div class="icheck_line-icon"></div>' + $(this).attr("data-label")
+                    });
+                } else {
+                    $(this).iCheck({
+                        checkboxClass: checkboxClass,
+                        radioClass: radioClass
+                    });
+                }
+            })
+        }
+    };
+    i_check.init($(".icheck-inline").find('input[name=type]'));
+    i_check.init($(".icheck-inline2").find('input[type=checkbox]'));
+
+   /* $(".icheck-inline").find('input[name=type]').each(function () {
+        var checkboxClass = $(this).attr('data-checkbox') ? $(this).attr('data-checkbox') : 'icheckbox_minimal-grey';
+        var radioClass = $(this).attr('data-radio') ? $(this).attr('data-radio') : 'iradio_minimal-grey';
+
+        if (checkboxClass.indexOf('_line') > -1 || radioClass.indexOf('_line') > -1) {
+            $(this).iCheck({
+                checkboxClass: checkboxClass,
+                radioClass: radioClass,
+                insert: '<div class="icheck_line-icon"></div>' + $(this).attr("data-label")
+            });
+        } else {
+            $(this).iCheck({
+                checkboxClass: checkboxClass,
+                radioClass: radioClass
+            });
+        }
+    });
+    $(".icheck-inline2").find('input[type=checkbox]').each(function () {
+        var checkboxClass = $(this).attr('data-checkbox') ? $(this).attr('data-checkbox') : 'icheckbox_minimal-grey';
+        var radioClass = $(this).attr('data-radio') ? $(this).attr('data-radio') : 'iradio_minimal-grey';
+
+        if (checkboxClass.indexOf('_line') > -1 || radioClass.indexOf('_line') > -1) {
+            $(this).iCheck({
+                checkboxClass: checkboxClass,
+                radioClass: radioClass,
+                insert: '<div class="icheck_line-icon"></div>' + $(this).attr("data-label")
+            });
+        } else {
+            $(this).iCheck({
+                checkboxClass: checkboxClass,
+                radioClass: radioClass
+            });
+        }
+    });*/
+
+
+
+
+</script>
+</body>
+</html>

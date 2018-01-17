@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,viewport-fit=contain,initial-scale=1, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>消息提示</title>
+    <link rel="stylesheet" href="../css/reset.css">
+    <link rel="stylesheet" href="../css/app.css">
+
+    <script src="../js/init_rem.js"></script>
+    <script src="../js/jquery.min.js"></script>
+    <script src="../js/angular.min.js"></script>
+
+</head>
+<body ng-app="messageApp" ng-controller="messageCtrl" ng-cloak style="background: #fff;">
+<div class="message">
+    <!-- 顶部标题栏 -->
+    <div class="header">
+        <a href="mine.html"><div class="back-arrow"><img src="../img/icon/back-arrow.png"></div></a>
+        <div class="title">消息提示</div>
+    </div>
+
+    <!-- 主体内容 消息列表 -->
+    <div class="msg-list">
+        <div class="msg-item" ng-repeat="v in list | orderBy:'v.id':true">
+            <div class="msg-ico">
+                <img src="../img/icon/msg-success.png" ng-if="v.status == 1">
+                <img src="../img/icon/msg-error.png" ng-if="v.status == 0">
+                <img src="../img/icon/msg-warning.png" ng-if="v.status == 2">
+            </div>
+            <div class="msg-info">
+                <p class="msg-content">{{v.msg}}</p>
+                <p class="msg-time">{{v.time}}</p>
+            </div>
+            <div class="msg-opt">
+                <div class="out read" ng-if="v.read == 1"><div class="inner">已读</div></div>
+                <div class="out unread" ng-if="v.read == 0" ng-click="read(v.id)"><div class="inner">确认</div></div>
+
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+<script type="text/javascript">
+    var app = angular.module('messageApp',[]);
+    app.controller('messageCtrl', function ($scope) {
+
+        // 消息列表 read=1已读，0未读； status=0error，1success，2warning
+        $scope.list = [
+            { id: 1, read: 1, msg: '您不是合规用户，请先前往个人中心进行合规信息的补全！', time:'2017-11-12 09:15:22', status: 2},
+            { id: 2, read: 1, msg: '您的消息补全已审核通过！', time:'2017-11-12 09:15:22', status: 1},
+            { id: 3, read: 0, msg: '您的消息补全已被驳回！', time:'2017-11-12 09:15:22', status: 0},
+            { id: 4, read: 0, msg: '您的消息补全已审核通过！', time:'2017-11-12 09:15:22', status: 1},
+        ];
+
+
+
+        $scope.read = function (id) {
+            id = id || 0;
+            $scope.list.forEach(function (t) {
+                if(t.id == id){
+                    // 设置该条消息为已读
+                    // ..
+                    t.read = 1;
+                }
+            });
+        }
+    })
+
+</script>
+</body>
+</html>

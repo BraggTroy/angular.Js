@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>测试一</title>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/angular.min.js"></script>
+    <script src="js/commonApp.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body ng-app="testoneApp" ng-controller="testoneCtrl">
+<div class=" container clear">
+    <!-- 添加数据 -->
+    <div class="form-box" ng-show="add">
+        <div class="wrap">
+            <input type="text" ng-model="user.name" placeholder="姓名">
+        </div>
+        <div class="wrap">
+            <label><input type="radio" name="sex" checked ng-click="getsex(1, true)"> 男</label>
+            <label><input type="radio" name="sex" ng-click="getsex(0, true)"> 女</label>
+        </div>
+        <div class="wrap">
+            <input type="text" ng-model="user.birth" placeholder="生日">
+        </div>
+        <div class="wrap">
+            <select ng-model="user.grade">
+                <option ng-repeat="g in gradelist" value="{{g}}">{{g}}</option>
+            </select>
+        </div>
+        <div class="wrap wrap-opt">
+            <button class="btn-default" ng-click="infoSubmit()">提交</button>
+        </div>
+    </div>
+
+    <!-- 更新 -->
+    <div class="form-box" ng-show="!add">
+        <div class="wrap">
+            <input type="text" ng-model="editdata.name" placeholder="姓名">
+        </div>
+        <div class="wrap">
+            <label><input type="radio" name="sex" ng-checked="editdata.sex == '男'" ng-click="getsex(1,false)"> 男</label>
+            <label><input type="radio" name="sex" ng-checked="editdata.sex == '女'" ng-click="getsex(0,false)"> 女</label>
+        </div>
+        <div class="wrap">
+            <input type="text" ng-model="editdata.birth" placeholder="生日">
+        </div>
+        <div class="wrap">
+            <select ng-model="editdata.grade">
+                <option ng-repeat="gr in gradelist" value="{{gr}}" ng-model="editdata.grade">{{gr}}</option>
+            </select>
+        </div>
+        <div class="wrap wrap-opt">
+            <button class="btn-default" ng-click="updateSubmit()">完成</button>
+        </div>
+    </div>
+
+    <!-- 添加年级 -->
+    <div class="form-box" ng-show="add">
+        <div class="wrap">
+            <input type="text" ng-model="addnewgrade" placeholder="新增年级">
+        </div>
+        <div class="wrap wrap-opt">
+            <button class="btn-default" ng-click="gradeSubmit()">提交</button>
+        </div>
+    </div>
+</div>
+
+<!-- 数据列表 -->
+<div class="table-box container">
+    <table class="table" cellpadding="0" cellspacing="0">
+        <thead>
+        <tr>
+            <th>序号</th>
+            <th>姓名</th>
+            <th>性别</th>
+            <th><span ng-click="orderByBirth()">生日</span></th>
+            <th>年级</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="info in infolist | orderBy:'birth':bl">
+            <td>{{$index+1}}</td>
+            <td>{{info.name}}</td>
+            <td>{{info.sex}}</td>
+            <td>{{info.birth}}</td>
+            <td>{{info.grade}}</td>
+            <td>
+                <a class="opt" ng-click="edit(info,info.id)">编辑</a>
+                <a class="opt" ng-click="delete(info.id)">删除</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<!-- 遮罩层 -->
+<div class="modal-bg" ng-class="hide" ng-click="closemodal()"></div>
+
+<!-- 删除确定弹窗 -->
+<div class="modal" ng-class="hide">
+    <div class="title"><span>{{modal.title}}</span><a class="close" ng-click="closemodal()">X</a></div>
+    <div class="modal-cont">
+        {{modal.msg}}
+    </div>
+    <div class="modal-opt">
+        <button class="btn-default" ng-click="closemodal()">取消</button>
+        <button class="btn-primary" ng-click="modal.confirm()">确定</button>
+    </div>
+</div>
+<script>
+    var app = angular.module('testoneApp', ['commonApp']);
+
+
+    app.controller("testoneCtrl", function ($scope) {
+        // 1.代码规范  html + js  注释，2.js !漏掉分号
+        // 良好 。 对象
+        // css 单行 切图结构
+        $scope.user = {};
+        $scope.user.name = "";
+        $scope.user.birth = "";
+        $scope.user.sex = "男";
+        $scope.user.grade = "请选择年级";
+
+
+        $scope.gradelist = ['请选择年级'];
+        $scope.infolist = [];
+        $scope.add = true;
+        $scope.hide = "hide";
+        $scope.modal = { title: "提示",msg: ''};
+        $scope.bl = true; // 排序的布尔值
+        $scope.update = false;
+        $scope.addIndex = 1;
+
+        // 点击单选框获取性别
+        $scope.getsex = function (num, isAdd) {
+            if (num == 0) {
+                $scope.user.sex = "女";
+                if (!isAdd) {
+                    $scope.editdata.sex = "女";
+                }
+            }else if (num == 1) {
+                $scope.user.sex = "男";
+                if (!isAdd) {
+                    $scope.editdata.sex = "男";
+                }
+            }else{
+                $scope.user.sex = "";
+            }
+        };
+
+        // 新增年级数据
+        $scope.gradeSubmit = function () {
+            if ($scope.gradelist.indexOf($scope.addnewgrade) <= -1)
+                $scope.gradelist.push($scope.addnewgrade);
+        };
+
+        // 新增user信息
+        $scope.infoSubmit = function () {
+            /*var info = {
+                name: $scope.newname,
+                sex: $scope.sex,
+                birth: $scope.newbirth,
+                grade: $scope.newgrade,
+                id: $scope.addIndex
+            };*/
+            var info = $.extend({id: $scope.addIndex},$scope.user);
+            $scope.infolist.push(info);
+            $scope.addIndex++;
+            $scope.user = {grade : "请选择年级"};
+        };
+
+
+        // 点击生日 排序
+        $scope.orderByBirth = function () {
+            $scope.bl = !$scope.bl;
+        };
+
+        // 根据id查找user信息
+        $scope.infoFilter = function (id, list) {
+            var index = -1;
+            $.each(list, function (i, v) {
+                if (v.id == id) {
+                    index = i;
+                    return;
+                }
+            });
+            return index;
+        };
+
+        // 点击编辑 赋值
+        $scope.edit = function (data, id) {
+            $scope.add = false;
+            $scope.editdata = JSON.parse(JSON.stringify(data));
+            $scope.editIndex = $scope.infoFilter(id, $scope.infolist);
+        };
+
+        // 删除 弹窗确认删除
+        $scope.delete = function (id) {
+            var idx = $scope.infoFilter(id, $scope.infolist);
+
+            $scope.showmodal({
+                msg: "确定要删除" + $scope.infolist[idx].name + "吗？",
+                confirm: function () {
+                    $scope.infolist.splice(idx, 1);
+                    $scope.closemodal();
+                }
+            });
+        };
+
+        // 完成更新
+        $scope.updateSubmit = function () {
+//            $scope.infolist.splice($scope.editIndex, 1, $scope.editdata);
+
+            // 更新数据
+            var aim_info = $scope.infolist[$scope.editIndex];
+            aim_info.name = $scope.editdata.name;
+            aim_info.sex = $scope.editdata.sex;
+            aim_info.birth = $scope.editdata.birth;
+            aim_info.grade = $scope.editdata.grade;
+
+            $scope.add = true;
+            $scope.update = true;
+            $scope.showmodal({msg: '更新成功！'});
+
+            //1.找到更新的id
+            //2.临时的对象（更新）点击完成的时候---同步到id
+        };
+
+        /*var allList = $scope.infolist
+        $scope.$watch('allList', function (newval,oldval) {
+            console.log(1)
+            if(newval == oldval){ return; }
+            if($scope.update){
+                $scope.showmodal({msg: '更新成功！'});
+                $scope.update = false;
+            }
+        },true)*/
+
+
+        // 关闭弹窗
+        $scope.closemodal = function () {
+            $scope.hide = "hide";
+            $scope.modal = {title: "提示", msg: ''}
+        };
+
+        // 打开弹窗
+        $scope.showmodal = function (config, callback) {
+            $scope.hide = "";
+            $scope.modal = $.extend({
+                title: "提示", msg: '', confirm: function () {
+                    $scope.closemodal()
+                }
+            }, config);
+            typeof callback == 'function' && callback(config);
+        };
+    })
+</script>
+</body>
+</html>
