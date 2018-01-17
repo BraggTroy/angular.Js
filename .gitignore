@@ -1,5 +1,3 @@
-# Object file
-*.o
-
-# Ada Library Information
-*.ali
+/.idea
+.idea/workspace.xml
+.idea/workspace.xml
