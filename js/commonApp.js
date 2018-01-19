@@ -146,6 +146,79 @@ commonApp.factory("pagerService", function () {
     return pagerService;
 });
 
+/**
+ * form: 目标表单，btnSubmit:表单中的提交按钮，callback:验证通过后的回调
+ */
+commonApp.factory("validForm", function () {
+    var showValidObj = {
+        showValid: function (form, btnSubmit, callback) {
+            var valid = {
+                form: form || $('form')[0],
+                btn: btnSubmit,
+                callback: callback || function(){}
+            };
+
+            // 检测提示标签是否存在，不存在则生成标签，返回目标对象
+            var _isTips = function (objInput) {
+                var _tips = $(objInput).siblings('.animate-tips');
+                if(_tips.length <= 0){
+                    $(objInput).after($('<div class="animate-tips"><span></span></div>'));
+                    return $(objInput).siblings('.animate-tips');
+                }else{
+                    return _tips;
+                }
+            };
+
+            // 若没有添加btnsubmit参数，则找默认的submit按钮，否则报错
+            if(typeof valid.btn == 'function'){
+                valid.callback = valid.btn;
+                valid.btn = $('button[type=submit]')[0] || $('input[type=submit]')[0];
+                if(!valid.btn || valid.btn.length == 0){
+                    alert("请设置提交按钮");
+                    return;
+                }
+            }else if(valid.btn == ""){
+                valid.btn = $('button[type=submit]')[0] || $('input[type=submit]')[0];
+                if(!valid.btn || valid.btn.length == 0){
+                    alert("请设置提交按钮");
+                    return;
+                }
+            }
+
+            $(valid.form).Validform({
+                tiptype: function (msg,o,cssctl) {
+                    //o.type 1：正在检测/提交数据，2：通过验证，3：验证失败，4：提示ignore状态
+                    var $tips = _isTips(o.obj);
+                    if(o.type == 2){
+                        if($tips.hasClass('ns-show')){
+                            $tips.removeClass('animate-scale ns-show').addClass('animate-scale ns-hide');
+                        }
+                    }else if(o.type == 3){
+                        $tips.text(msg).removeClass('animate-scale ns-hide').addClass('animate-scale ns-show');
+                    }
+                },
+                btnSubmit: $(valid.btn),
+                ignoreHidden: true,
+                showAllError: true,
+                datatype: {  // 自定义验证规则，也可以是自定义方法，规则根据实际需求在此添加
+                    "zh2-4" : /^[\u4E00-\u9FA5\uf900-\ufa2d]{2,4}$/,
+                    "example": function (val,obj,curform,regxp) {  //自定义方法参数说明 val：输入值，obj：目标表单元素，curform：表单，regxp：全部验证表达式
+                        if(!~val.indexOf('陈')){ // 没有输入“陈”
+                            return false; // 自定义方法返回false则表示验证不通过
+                        }
+                    }
+                },
+                beforeSubmit: function () {
+                    typeof valid.callback == 'function' && valid.callback();
+                    return false;
+                }
+            });
+        }
+    };
+    return showValidObj;
+});
+
+
 commonApp.factory("bannerService", function () {
     var bannerService = {
         getBannerData: function (id) {

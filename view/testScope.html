@@ -37,6 +37,9 @@
     <script src="../js/icheck/icheck.js"></script>
 
 </head>
+<script>
+    var app = angular.module('testApp',['ngRoute','commonApp','ng-pagination']); // []内依赖注入
+</script>
 <body ng-app="testApp" ng-controller="testCtrl">
 <!-- 简单过滤器 -->
 <section class="col-md-3">
@@ -161,7 +164,6 @@
 
 <script>
 
-    var app = angular.module('testApp',['ngRoute','commonApp','ng-pagination']); // []内依赖注入
     app.config(['$routeProvider', function ($routeProvider) {  // 路由配置
         $routeProvider
             .when('/', {template:'默认页'})

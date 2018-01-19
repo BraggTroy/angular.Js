@@ -3,6 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <title>插件测试</title>
+
+    <script src="js/jquery-3.2.1.js"></script>
+
     <link rel="stylesheet" href="css/plugins.css">
     <script src="js/plugins.js"></script>
 
@@ -74,6 +77,7 @@
     // modal.box({
     //     title: '标题',
     //     msg: '用户名不存在',
+    //     html: html,
     //     confirm: function () {
     //
     //     }
@@ -84,6 +88,145 @@
     //     type: 'success',
     //     msg: '提示'
     // });
+
+var util = {
+    merger: function () {
+        var inner_merger = function (obj1, obj2) {
+            for (var key in obj2) {
+                if (obj2.hasOwnProperty(key)) {
+                    obj1[key] = obj2[key];
+                }
+            }
+            return obj1;
+        };
+        var ret = {};
+        for (var i = 0, l = arguments.length; i < l; i++) {
+            inner_merger(ret, arguments[i])
+        }
+        return ret;
+    },
+    init_xhr: function () {
+        if(window.XMLHttpRequest){
+            return new XMLHttpRequest();
+        }else if(window.ActiveXObject){
+            return new ActiveXObject("Microsoft.XMLHTTP");
+        }
+    },
+    data_toString: function (data) {
+        if(!data || data == undefined){ return;}
+        var str = '';
+        for(var d in data){
+            str += d + '=' + data[d] + '&';
+        }
+        return str == '' ? str : str.substr(0,str.length-1);
+    },
+    ajax_config: {
+        url: '',
+        data: {},
+        async: true,
+        success: function (res) {},
+        error: function (status) {},
+        ontimeout: function () {}
+    },
+    ajax_get: function (conf) {
+        var config = this.ajax_config;
+        config = this.merger(config, conf);
+
+        var xhr = this.init_xhr();
+        var data = this.data_toString(config.data);
+
+        xhr.open('GET', config.url+'?'+data, config.async);
+        xhr.onreadystatechange = function (ev) {
+            if(xhr.readyState == 4 && xhr.status == 200){
+                // 成功
+                typeof config.success == 'function' && config.success(xhr.responseText);
+            }else{
+                // 失败
+                config.error(xhr.status);
+            }
+        };
+        xhr.send(null);
+
+        if(config.hasOwnProperty('timeout') || config.timeout > 0){
+            setTimeout(function () {
+                xhr.abort();
+                xhr.ontimeout = function () {
+                    typeof config.ontimeout == 'function' && config.ontimeout();
+                };
+            },parseInt(config.timeout));
+        }
+    },
+    ajax_post: function (conf) {
+        var config = this.ajax_config;
+        config = this.merger(config, conf);
+
+        var xhr = this.init_xhr();
+        var data = this.data_toString(config.data);
+
+        xhr.open('POST', config.url, config.async);
+        xhr.onreadystatechange = function (ev) {
+            if(xhr.readyState == 4 && xhr.status == 200){
+                // 成功
+                typeof config.success == 'function' && config.success(xhr.responseText);
+            }else{
+                // 失败
+                config.error(xhr.status);
+            }
+        };
+        xhr.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+        xhr.send(data);
+
+    }
+};
+
+
+// util.ajax_get({
+//     url: 'http://www.shtongnian.com/admin/index/article_piechart',
+//     timeout: 3000,
+//     success: function (res) {
+//         console.log(res);
+//     }
+// });
+
+    // util.ajax_post({
+    //     url: 'http://172.16.1.150:8085/mwuser/login',
+    //     data: {username: '18852951226',password: '111'},
+    //     success: function (res) {
+    //         console.log(res);
+    //     }
+    // });
+
+    $.ajax({
+        type: 'get',
+        url: 'http://www.shtongnian.com/admin/index/article_piechart',
+        dataType: 'json',
+        success: function (res) {
+            console.log(res);
+        },
+        error: function () {
+            console.log('error');
+        }
+
+    });
+
+    $.ajax({
+        // headers: {
+        //     Accept: "application/json; charset=utf-8"
+        // },
+        type: 'post',
+        url: 'http://172.16.1.150:8085/mwuser/login',
+        data: {username: '18852951226',password: '111'},
+        // dataType: 'jsonp',
+        success: function (res) {
+            console.log(res);
+        }
+    });
+
+
+    /*$.post('http://172.16.1.150:8085/mwuser/login',{username: '18852951226',password: '111'}, function (res) {
+
+    })*/
+
 </script>
 </body>
 </html>

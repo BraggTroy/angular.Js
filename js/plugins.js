@@ -189,14 +189,23 @@ var plugins = (function (win,doc,undefined) {
 
         //
         var for_content = '';
+        var isHtml = false;
         if(options.html.length > 0){
             for_content = options.html;
+            isHtml = true;
         }else if(options.msg.length > 0){
             for_content = '<div class="text-cont">' + options.msg + '</div>';
         }else{
             for_content = '<div class="text-cont">' + pluginName + '</div>';
         }
         var $cont = _dom('div','plugins-cont',for_content);
+
+        if(isHtml){
+            $cont.style.maxHeight = size.height - 300 + 'px';
+            $cont.style.overflow = 'auto';
+            $cont.style.display = 'block';
+        }
+
 
         var $btnConfirm = _dom('button','button button-confirm','确定');
         var $btnCancel = _dom('button','button button-cancel','取消');
@@ -363,10 +372,19 @@ var plugins = (function (win,doc,undefined) {
 
 
     // init初始化入口
-    function Plugins() {
-        var $body = document.getElementsByTagName('body')[0];
+    function Plugins() {}
 
-        this.init = function (options,type) {
+    Plugins.prototype = {
+        hasPlugin: function () {
+            if(_get('plugins-modal').length>0){
+                return true;
+            }else{
+                return false;
+            }
+        },
+        init: function (options,type) {
+            var $body = document.getElementsByTagName('body')[0];
+
             this.options = _merger({},defaults,options);
             if(this.hasPlugin()){ this.remove(); }
 
@@ -379,17 +397,8 @@ var plugins = (function (win,doc,undefined) {
                 _createPluginsMsg(this.options, this);
             }else if(type == 'loading'){
                 _createLoading(this.options, this);
-            }
-        };
-
-    }
-
-    Plugins.prototype = {
-        hasPlugin: function () {
-            if(_get('plugins-modal').length>0){
-                return true;
             }else{
-                return false;
+                this.box({msg: '未知提示方式', showCancel: false, confirm: function () {return true;}});
             }
         },
         box: function (options) {

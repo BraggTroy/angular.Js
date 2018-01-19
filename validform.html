@@ -5,66 +5,75 @@
     <title>表单验证</title>
 
     <script src="js/jquery.min.js"></script>
+    <script src="js/Validform_v5.3.2.js"></script>
+
+    <script src="js/angular.min.js"></script>
+    <script src="js/commonApp.js"></script>
 
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <script src="js/bootstrap.min.js"></script>
 
     <link rel="stylesheet" href="css/validform.css">
-    <script src="js/Validform_v5.3.2.js"></script>
-
     <link rel="stylesheet" href="css/formtest.css">
+
 </head>
-<body>
+<body ng-app="formApp" ng-controller="formCtrl">
 <!--可结合微官网第二套主题的验证进行改进-->
 <div class="container">
     <h1>validform <small>v5.3.2</small></h1>
     <form class="form-horizontal form1">
-        <div class="form-group">
+        <div class="form-group ">
             <label for="name" class="col-sm-2 col-xs-2 control-label">姓名</label>
             <div class="col-sm-8 col-xs-8">
-                <input type="text" class="form-control" name="name" id="name" datatype="test" nullmsg="姓名不能为空" sucmsg="姓名格式正确" errormsg="姓名不符合规范">
-                <span class="Validform_checktip"></span>
-                <div class="animate-tips"><span></span></div>
+                <input type="text" class="form-control" name="name" id="name" datatype="example" nullmsg="姓名不能为空" sucmsg="姓名格式正确" errormsg="姓名不符合规范">
+                <!--<span class="Validform_checktip"></span>-->
+                <!--<div class="animate-tips"><span></span></div>-->
             </div>
         </div>
-        <div class="form-group">
+        <div class="form-group ">
             <label for="phone" class="col-sm-2 col-xs-2 control-label">手机</label>
             <div class="col-sm-8 col-xs-8">
                 <input type="text" class="form-control" name="phone" id="phone"  datatype="m" nullmsg="手机号不能为空" sucmsg="手机号正确" errormsg="号码不存在">
-                <span class="Validform_checktip"></span>
-                <div class="animate-tips"><span></span></div>
+                <!--<span class="Validform_checktip"></span>-->
+                <!--<div class="animate-tips"><span></span></div>-->
             </div>
         </div>
-        <div class="form-group">
+        <div class="form-group hidden">
             <label for="phone2" class="col-sm-2 col-xs-2 control-label">手机2</label>
             <div class="col-sm-8 col-xs-8">
                 <input type="text" class="form-control" name="phone2" id="phone2"  datatype="m" nullmsg="手机号不能为空" sucmsg="手机号正确" errormsg="号码不存在" ajaxurl="/user/phone">
-                <span class="Validform_checktip"></span>
-                <div class="animate-tips"><span></span></div>
+                <!--<span class="Validform_checktip"></span>-->
+                <!--<div class="animate-tips"><span></span></div>-->
             </div>
         </div>
-        <div class="form-group">
+        <div class="form-group hidden">
             <label for="inputEmail" class="col-sm-2 col-xs-2 control-label">邮箱</label>
             <div class="col-sm-8 col-xs-8">
                 <input type="text" class="form-control" name="email" id="inputEmail" datatype="e" nullmsg="邮箱不能为空" sucmsg="邮箱格式正确" errormsg="邮箱格式不正确">
-                <span class="Validform_checktip"></span>
-                <div class="animate-tips"><span></span></div>
+                <!--<span class="Validform_checktip"></span>-->
+                <!--<div class="animate-tips"><span></span></div>-->
             </div>
         </div>
         <div class="form-group">
             <label for="inputPassword" class="col-sm-2 col-xs-2 control-label">密码</label>
             <div class="col-sm-8 col-xs-8">
                 <input type="password" name="password" class="form-control" id="inputPassword" datatype="n3-16|s3-16" nullmsg="密码不能为空" sucmsg="密码格式正确" errormsg="密码为6-16位数字或字母组合">
-                <span class="Validform_checktip"></span>
-                <div class="animate-tips"><span></span></div>
+                <!--<span class="Validform_checktip"></span>-->
+                <!--<div class="animate-tips"><span></span></div>-->
             </div>
         </div>
         <div class="form-group">
             <label for="pwd" class="col-sm-2 col-xs-2 control-label">确认密码</label>
             <div class="col-sm-8 col-xs-8">
                 <input type="password" name="pwd" class="form-control" id="pwd" datatype="*" nullmsg="请确认密码" sucmsg="两次密码相同" recheck="password">
-                <span class="Validform_checktip"></span>
+                <!--<span class="Validform_checktip"></span>-->
                 <div class="animate-tips"><span></span></div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="phone2" class="col-sm-2 col-xs-2 control-label">手机验证码</label>
+            <div class="col-sm-8 col-xs-8">
+                <input type="text" class="form-control" name="phone2" id="phone3"  datatype="m" nullmsg="手机号不能为空" sucmsg="手机号正确" errormsg="号码不存在">
             </div>
         </div>
         <div class="form-group no-border">
@@ -84,30 +93,61 @@
         </div>
     </form>
 </div>
-
+<!--
+    开发：所有的表单都要包含在form中，才能灵活使用validform
+-->
 <script>
+
+    var app = angular.module('formApp',['commonApp']);
+    app.controller('formCtrl', function ($scope, validForm) {
+
+        validForm.showValid(".form1","#btnSubmit", function () {
+            // ...
+            $.ajax({
+                type: 'post',
+                url: '/user/resg',
+                data: {
+                    phone: $("#inputPassword").val()
+                },
+                dataType: 'json',
+                success: function (res) {
+                    console.log('success');
+                },
+                error: function () {
+                    console.log('error');
+                }
+            })
+        });
+
+
+
+    });
+
+
+/*
+
     var form1 = $(".form1").Validform({
         tiptype: function (msg,o,cssctl) {
             //o.type 1：正在检测/提交数据，2：通过验证，3：验证失败，4：提示ignore状态
             if(o.type == 2){
                 // cssctl(o.obj.siblings('.Validform_checktip'),o.type)
-                o.obj.siblings('.Validform_checktip').addClass('Validform_right').text(msg);
+                // o.obj.siblings('.Validform_checktip').addClass('Validform_right').text(msg);
                 var $tips = o.obj.siblings('.animate-tips');
                 if($tips.hasClass('ns-show')){
                     $tips.removeClass('animate-scale ns-show').addClass('animate-scale ns-hide');
                 }
             }else if(o.type == 3){
-                o.obj.siblings('.Validform_checktip').removeClass('Validform_right').text('');
+                // o.obj.siblings('.Validform_checktip').removeClass('Validform_right').text('');
                 o.obj.siblings('.animate-tips').text(msg).removeClass('animate-scale ns-hide').addClass('animate-scale ns-show');
             }
         },
-        btnSubmit: '#btnSubmit',
+        btnSubmit: '#btnSubmit',  // 表单有submit时可省略
         btnReset: '#btnReset',
         ignoreHidden: true, // 隐藏的表单项不验证，默认为false
         // tipSweep: false, // 为true时仅在提交时触发表单项验证，默认为false
-        showAllError: true, // 提交时所有错误都显示，默认false
-        ajaxPost: true,  // 是否以ajax形式提交，默认false
-        url: "/user/register",
+        showAllError: true, // 提交时所有表单项都验证，默认false
+        // ajaxPost: true,  // 是否以ajax形式提交，默认false
+        //url: "/user/register",
         datatype: {  // 自定义验证规则，也可以是自定义方法
             "zdy2-4" : /^[\u4E00-\u9FA5\uf900-\ufa2d]{2,4}$/,
             "test": function (val,obj,curform,regxp) {  // val：输入值，obj：目标表单元素，curform：表单，regxp：全部验证表达式
@@ -116,25 +156,30 @@
                 }
             }
         },
-        // beforeSubmit: function () {
-        //     console.log("验证成功！");
-        // },
+        beforeSubmit: function () {
+            // if(callback()){
+            //     callback()
+            // }
+            console.log(1);
+            return false;
+        },
         // callback: function (data) {   // 表单提交后执行  // callback与ajaxpost二选一，callback在提交成功与失败后都会执行
         //     console.log(data);
         //     console.log(data.status);
         //     console.log(data.responseText);
         // },
-        ajaxpost: { //可以传入$.ajax()能使用的，除dataType外的所有参数;
-            success:function(data,obj){     //data是返回的json数据;//obj是当前表单的jquery对象;
-                console.log(data);
-            },
-            error:function(data,obj){       //data是{ status:**, statusText:**, readyState:**, responseText:** };//obj是当前表单的jquery对象;
-                console.log(data);
-            }
-        }
+        // ajaxpost: { //可以传入$.ajax()能使用的，除dataType外的所有参数;
+        //     success:function(data,obj){     //data是返回的json数据;//obj是当前表单的jquery对象;
+        //         console.log(data);
+        //     },
+        //     error:function(data,obj){       //data是{ status:**, statusText:**, readyState:**, responseText:** };//obj是当前表单的jquery对象;
+        //         console.log(data);
+        //     }
+        // },
 
     });
 
+*/
 
 </script>
 </body>
